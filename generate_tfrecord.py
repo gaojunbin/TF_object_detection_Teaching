@@ -16,10 +16,14 @@ flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
 FLAGS = flags.FLAGS
 
 
-# TO-DO replace this with label map
+# 这里改成自己的类别和标签的名字
 def class_text_to_int(row_label):
     if row_label == 'car':
         return 1
+    '''
+    if row_label == 'motor':
+        return 2
+    '''
     else:
         None
 
