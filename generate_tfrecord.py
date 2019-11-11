@@ -1,6 +1,6 @@
 '''
-python generate_tfrecord.py --csv_input=data/train/glasses.csv  --output_path=data/train.record
-python generate_tfrecord.py --csv_input=data/test/glasses.csv  --output_path=data/train.record
+python generate_tfrecord.py --csv_input=images/train/galsses.csv  --output_path=data/train.record
+python generate_tfrecord.py --csv_input=images/test/galsses.csv  --output_path=data/train.record
 '''
 '''
 需要修改的地方：
@@ -45,7 +45,7 @@ FLAGS = flags.FLAGS
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'person':
+    if row_label == 'galsses':
         return 1
     else:
         None
