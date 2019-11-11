@@ -1,3 +1,12 @@
+'''
+python generate_tfrecord.py --csv_input=./train/glasses.csv  --output_path=./train.record
+
+python generate_tfrecord.py --csv_input=./test/glasses.csv  --output_path=./test.record
+'''
+
+
+
+
 import os
 import io
 import pandas as pd
@@ -8,7 +17,7 @@ from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
 #改成你想要把record文件生成在哪，这个其实无所谓，最后你生成了record文件就好，后续按照步骤来
-os.chdir('/Users/junbin/Documents/GitHub/TensorFlow/models/research/object_detection')
+os.chdir('./')
 
 flags = tf.app.flags
 flags.DEFINE_string('csv_input', '', 'Path to the CSV input')
@@ -18,14 +27,11 @@ FLAGS = flags.FLAGS
 
 # 这里改成自己的类别和标签的名字
 def class_text_to_int(row_label):
-    if row_label == 'car':
+    if row_label == 'glasses':
         return 1
-    '''
-    if row_label == 'motor':
-        return 2
-    '''
     else:
         None
+#如果有很多类，继续往下加，依次return 2,3,……
 
 
 def split(df, group):
@@ -42,7 +48,7 @@ def create_tf_example(group, path):
     width, height = image.size
 
     filename = group.filename.encode('utf8')
-    image_format = b'jpg'
+    image_format = b'png'
     xmins = []
     xmaxs = []
     ymins = []
@@ -77,6 +83,7 @@ def create_tf_example(group, path):
 
 def main(_):
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
+    #必须把图片放在images文件夹下
     path = os.path.join(os.getcwd(), 'images')
     examples = pd.read_csv(FLAGS.csv_input)
     grouped = split(examples, 'filename')

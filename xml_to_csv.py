@@ -4,8 +4,8 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 
 #下面两行修改成自己存放.xml文件的路径，相对于xml_to_csv.py的路径即可，或者绝对路径
-os.chdir('./xml')
-path = './xml'
+os.chdir('./train/xml')
+path = './train/xml'
 
 def xml_to_csv(path):
     xml_list = []
@@ -32,7 +32,7 @@ def main():
     image_path = path
     xml_df = xml_to_csv(image_path)
     #下面一行修改成生成的csv的文件名，改成跟标签同名即可，注意不能省略.csv
-    xml_df.to_csv('car.csv', index=None)
+    xml_df.to_csv('glasses.csv', index=None)
     print('Successfully converted xml to csv.')
 
 
