@@ -1,9 +1,27 @@
 '''
-python generate_tfrecord.py --csv_input=./train/glasses.csv  --output_path=./train.record
-
-python generate_tfrecord.py --csv_input=./test/glasses.csv  --output_path=./test.record
+python generate_tfrecord.py --csv_input=data/train/glasses.csv  --output_path=data/train.record
+python generate_tfrecord.py --csv_input=data/test/glasses.csv  --output_path=data/train.record
 '''
+'''
+需要修改的地方：
+1.
+#这里改到自己的object_detection路径下，也就是本py文件所在的路径
+os.chdir('/Users/junbin/Documents/GitHub/TensorFlow/models/research/object_detection')
 
+2.
+# 如果有多个标签，改为如下格式
+def class_text_to_int(row_label):
+    if row_label == '标签1':
+        return 1
+    elif row_label== '标签2':
+        return 2
+    ……
+    else:
+        None
+
+3.文件夹的架构一定要按着我的博客上搭
+
+'''
 
 
 
@@ -16,8 +34,8 @@ from PIL import Image
 from object_detection.utils import dataset_util
 from collections import namedtuple, OrderedDict
 
-#改成你想要把record文件生成在哪，这个其实无所谓，最后你生成了record文件就好，后续按照步骤来
-os.chdir('./')
+#这里改到自己的object_detection路径下，也就是本py文件所在的路径
+os.chdir('/Users/junbin/Documents/GitHub/TensorFlow/models/research/object_detection')
 
 flags = tf.app.flags
 flags.DEFINE_string('csv_input', '', 'Path to the CSV input')
@@ -25,13 +43,12 @@ flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
 FLAGS = flags.FLAGS
 
 
-# 这里改成自己的类别和标签的名字
+# TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'glasses':
+    if row_label == 'person':
         return 1
     else:
         None
-#如果有很多类，继续往下加，依次return 2,3,……
 
 
 def split(df, group):
@@ -48,7 +65,7 @@ def create_tf_example(group, path):
     width, height = image.size
 
     filename = group.filename.encode('utf8')
-    image_format = b'png'
+    image_format = b'jpg'
     xmins = []
     xmaxs = []
     ymins = []
@@ -83,7 +100,6 @@ def create_tf_example(group, path):
 
 def main(_):
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
-    #必须把图片放在images文件夹下
     path = os.path.join(os.getcwd(), 'images')
     examples = pd.read_csv(FLAGS.csv_input)
     grouped = split(examples, 'filename')
