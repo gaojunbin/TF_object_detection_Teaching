@@ -104,7 +104,7 @@ def create_tf_example(group, path):
 def main(_):
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
     #训练的图片保存在images文件夹下，当然你也可以改名或者调整文件结构
-    path = os.path.join(os.getcwd(), 'images')
+    path = os.path.join(os.getcwd(), 'images/train')
     examples = pd.read_csv(FLAGS.csv_input)
     grouped = split(examples, 'filename')
     for group in grouped:
