@@ -5,10 +5,11 @@ python generate_tfrecord.py --csv_input=images/test/galsses.csv  --output_path=d
 '''
 需要修改的地方：
 1.
-#这里改到自己的object_detection路径下，也就是本py文件所在的路径
+#这里改到自己的object_detection路径下，也就是本py文件所在的路径，可以相对路径，也可以用绝对路径
 os.chdir('/Users/junbin/Documents/GitHub/TensorFlow/models/research/object_detection')
 
 2.
+# 修改标签名字
 # 如果有多个标签，改为如下格式
 def class_text_to_int(row_label):
     if row_label == '标签1':
@@ -19,7 +20,8 @@ def class_text_to_int(row_label):
     else:
         None
 
-3.文件夹的架构一定要按着我的博客上搭
+3.png或者.jpg
+4.文件架构看我博客，图片保存在images文件夹下，当然也可以调整结构
 
 '''
 
@@ -45,7 +47,7 @@ FLAGS = flags.FLAGS
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'galsses':
+    if row_label == 'galsses':    #修改标签名
         return 1
     else:
         None
@@ -65,6 +67,7 @@ def create_tf_example(group, path):
     width, height = image.size
 
     filename = group.filename.encode('utf8')
+    #.jpg或是.png
     image_format = b'jpg'
     xmins = []
     xmaxs = []
@@ -100,6 +103,7 @@ def create_tf_example(group, path):
 
 def main(_):
     writer = tf.python_io.TFRecordWriter(FLAGS.output_path)
+    #训练的图片保存在images文件夹下，当然你也可以改名或者调整文件结构
     path = os.path.join(os.getcwd(), 'images')
     examples = pd.read_csv(FLAGS.csv_input)
     grouped = split(examples, 'filename')

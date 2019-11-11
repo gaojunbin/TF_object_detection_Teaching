@@ -1,11 +1,23 @@
+'''
+1.修改os.chdir的路径，为本py文件所在的路径，可以相对路径，也可以用绝对路径
+2.修改path的路径，用相对（os.chdir）路径表示要转化的xml文件所在的位置
+3.修改xml_df.to_csv('person_train.csv', index=None)的文件名，注意不要忘记.csv结尾
+
+'''
+
+
+
+
 import os
 import glob
 import pandas as pd
 import xml.etree.ElementTree as ET
 
-#下面两行修改成自己存放.xml文件的路径，相对于xml_to_csv.py的路径即可，或者绝对路径
-os.chdir('./train/xml')
-path = './train/xml'
+
+#os.chdir是本py的路径，相对或者绝对路径均可
+os.chdir('/Users/junbin/Documents/GitHub/TensorFlow/models/research/object_detection/images')
+#path是要转化的xml文件所在的位置
+path = './train/'
 
 def xml_to_csv(path):
     xml_list = []
@@ -32,7 +44,7 @@ def main():
     image_path = path
     xml_df = xml_to_csv(image_path)
     #下面一行修改成生成的csv的文件名，改成跟标签同名即可，注意不能省略.csv
-    xml_df.to_csv('glasses.csv', index=None)
+    xml_df.to_csv('galsses_train.csv', index=None)
     print('Successfully converted xml to csv.')
 
 
