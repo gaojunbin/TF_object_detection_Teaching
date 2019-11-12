@@ -1,11 +1,14 @@
 '''
-python generate_tfrecord.py --csv_input=images/train/galsses.csv  --output_path=data/train.record
-python generate_tfrecord.py --csv_input=images/test/galsses.csv  --output_path=data/train.record
+运行命令：
+python generate_tfrecord.py --csv_input=images/train/person.csv  --output_path=data/train.record
+python generate_tfrecord.py --csv_input=images/test/person.csv  --output_path=data/test.record
 '''
+
 '''
-需要修改的地方：
+文件说明：
+使用方法及需要修改的地方：
 1.
-#这里改到自己的object_detection路径下，也就是本py文件所在的路径，可以相对路径，也可以用绝对路径
+#下面这里改到自己的object_detection路径，也就是本py文件所在的路径，可以相对路径，也可以用绝对路径（其实你要是放在object_detection下的话，这个改成./就行了，但是改绝对路径肯定没错啦）
 os.chdir('/Users/junbin/Documents/GitHub/TensorFlow/models/research/object_detection')
 
 2.
@@ -20,8 +23,19 @@ def class_text_to_int(row_label):
     else:
         None
 
-3.png或者.jpg
-4.文件架构看我博客，图片保存在images文件夹下，当然也可以调整结构
+3.
+png或者.jpg，根据你用的图片的格式改
+
+4.
+#训练图片的csv文件保存在images下的train文件夹下，当然你也可以改名或者调整文件结构
+path = os.path.join(os.getcwd(), 'images/train')
+
+5.文件架构（generate_tfrecord.py本文件在object_detection目录中，该目录是tf的oj模型。对应有很多很多文件和文件夹，我只提到有用的或者需要自己修改的）
+-images
+    --train
+        ---各种图片和xml文件
+    --test
+        ---各种图片和xml文件
 
 '''
 
